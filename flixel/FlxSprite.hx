@@ -46,6 +46,11 @@ class FlxSprite extends FlxObject
 	// TODO: maybe convert this var to property...
 
 	/**
+	 * An alias for the animation property.
+	 */
+	public var anim:FlxAnimationController;
+
+	/**
 	 * The current display state of the sprite including current animation frame,
 	 * tint, flip etc... may be `null` unless `useFramePixels` is `true`.
 	 */
@@ -279,6 +284,7 @@ class FlxSprite extends FlxObject
 		super.initVars();
 
 		animation = new FlxAnimationController(this);
+		anim = animation;
 
 		_flashPoint = new Point();
 		_flashRect = new Rectangle();
@@ -307,6 +313,7 @@ class FlxSprite extends FlxObject
 		super.destroy();
 
 		animation = FlxDestroyUtil.destroy(animation);
+		anim = null;
 
 		offset = FlxDestroyUtil.put(offset);
 		origin = FlxDestroyUtil.put(origin);
