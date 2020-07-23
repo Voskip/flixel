@@ -1067,7 +1067,7 @@ class FlxTweenManager extends FlxBasic
 	 */
 	@:generic
 	@:allow(flixel.tweens.FlxTween)
-	function add<T:FlxTween>(Tween:T, Start:Bool = false):T
+	public function add<T:FlxTween>(Tween:T, Start:Bool = false):T
 	{
 		// Don't add a null object
 		if (Tween == null)
