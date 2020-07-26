@@ -1007,7 +1007,7 @@ class FlxTypedSpriteGroup<T:FlxSprite> extends FlxSprite
 	 * This functionality isn't supported in SpriteGroup
 	 * @return this sprite group
 	 */
-	override public function loadGraphic(Graphic:FlxGraphicAsset, Animated:Bool = false, Width:Int = 0, Height:Int = 0, Unique:Bool = false,
+	override public function loadGraphic(Graphic:FlxGraphicAsset, Animated:Bool = false, Width:Int = 0, Height:Int = 0, UseAsGrid:Bool = false, Margin:Int = 0, Unique:Bool = false,
 			?Key:String):FlxSprite
 	{
 		return this;

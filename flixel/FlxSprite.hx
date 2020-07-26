@@ -381,22 +381,35 @@ class FlxSprite extends FlxObject
 	 *                     (helps figure out what to do with non-square sprites or sprite sheets).
 	 * @param   Height     Specify the height of your sprite
 	 *                     (helps figure out what to do with non-square sprites or sprite sheets).
+	 * @param   UseAsGrid  Whether the width and height should be treated as columns and rows instead.
+	 * @param   Margin     The spacing between the sprites in the spritesheet.
 	 * @param   Unique     Whether the graphic should be a unique instance in the graphics cache.
 	 *                     Set this to `true` if you want to modify the `pixels` field without changing
 	 *                     the `pixels` of other sprites with the same `BitmapData`.
 	 * @param   Key        Set this parameter if you're loading `BitmapData`.
 	 * @return  This `FlxSprite` instance (nice for chaining stuff together, if you're into that).
 	 */
-	public function loadGraphic(Graphic:FlxGraphicAsset, Animated:Bool = false, Width:Int = 0, Height:Int = 0, Unique:Bool = false, ?Key:String):FlxSprite
+	public function loadGraphic(Graphic:FlxGraphicAsset, Animated:Bool = false, Width:Int = 0, Height:Int = 0, UseAsGrid:Bool = false, Margin:Int = 0,
+			Unique:Bool = false, ?Key:String):FlxSprite
 	{
 		var graph:FlxGraphic = FlxG.bitmap.add(Graphic, Unique, Key);
 		if (graph == null)
-			return this;
+			throw "The file " + Graphic + " does not exist.";
 
 		if (Width == 0)
 		{
 			Width = Animated ? graph.height : graph.width;
 			Width = (Width > graph.width) ? graph.width : Width;
+		}
+		else
+		{
+			if (UseAsGrid)
+			{
+				var width = graph.width / Width;
+				if (width != Math.floor(width))
+					throw "width / columns (" + width + "/" + Width + ") is not an integer (" + Graphic + ")";
+				Width = cast width;
+			}
 		}
 
 		if (Height == 0)
@@ -404,9 +417,27 @@ class FlxSprite extends FlxObject
 			Height = Animated ? Width : graph.height;
 			Height = (Height > graph.height) ? graph.height : Height;
 		}
+		else
+		{
+			if (UseAsGrid)
+			{
+				var height = graph.height / Height;
+				if (height != Math.floor(height))
+					throw "height / rows (" + height + "/" + Height + ") is not an integer (" + Graphic + ")";
+				Height = cast height;
+			}
+		}
 
 		if (Animated)
+		{
 			frames = FlxTileFrames.fromGraphic(graph, FlxPoint.get(Width, Height));
+
+			if (Margin > 0)
+			{
+				this.setSize(width - Margin * 2, height - Margin * 2);
+				this.offset.set(Margin, Margin);
+			}
+		}
 		else
 			frames = graph.imageFrame;
 
