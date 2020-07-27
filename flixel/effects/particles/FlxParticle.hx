@@ -74,9 +74,9 @@ class FlxParticle extends FlxSprite implements IFlxParticle
 	public var accelerationRange:FlxRange<FlxPoint>;
 
 	/**
-	 * The range of values for `elasticity` over this particle's `lifespan`.
+	 * The range of values for `bounce` over this particle's `lifespan`.
 	 */
-	public var elasticityRange:FlxRange<Float>;
+	public var bounceRange:FlxRange<Float>;
 
 	/**
 	 * The amount of change from the previous frame.
@@ -99,7 +99,7 @@ class FlxParticle extends FlxSprite implements IFlxParticle
 		colorRange = new FlxRange<FlxColor>(FlxColor.WHITE);
 		dragRange = new FlxRange<FlxPoint>(FlxPoint.get(), FlxPoint.get());
 		accelerationRange = new FlxRange<FlxPoint>(FlxPoint.get(), FlxPoint.get());
-		elasticityRange = new FlxRange<Float>(0);
+		bounceRange = new FlxRange<Float>(0);
 
 		exists = false;
 	}
@@ -137,7 +137,7 @@ class FlxParticle extends FlxSprite implements IFlxParticle
 		alphaRange = null;
 		colorRange = null;
 		accelerationRange = null;
-		elasticityRange = null;
+		bounceRange = null;
 
 		super.destroy();
 	}
@@ -200,9 +200,10 @@ class FlxParticle extends FlxSprite implements IFlxParticle
 				acceleration.y += (accelerationRange.end.y - accelerationRange.start.y) * _delta;
 			}
 
-			if (elasticityRange.active)
+			if (bounceRange.active)
 			{
-				elasticity += (elasticityRange.end - elasticityRange.start) * _delta;
+				bounce.x += (bounceRange.end - bounceRange.start) * _delta;
+				bounce.y += (bounceRange.end - bounceRange.start) * _delta;
 			}
 		}
 
@@ -236,7 +237,7 @@ interface IFlxParticle extends IFlxSprite
 	var colorRange:FlxRange<FlxColor>;
 	var dragRange:FlxRange<FlxPoint>;
 	var accelerationRange:FlxRange<FlxPoint>;
-	var elasticityRange:FlxRange<Float>;
+	var bounceRange:FlxRange<Float>;
 
 	function onEmit():Void;
 }

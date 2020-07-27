@@ -216,6 +216,20 @@ class FlxObject extends FlxBasic
 
 			if (!obj1immovable && !obj2immovable)
 			{
+				if (Object1.strength.x > Object2.strength.x)
+				{
+					Object2.x += overlap;
+					Object2.velocity.x = obj1v - obj2v * Object2.bounce.x;
+					return true;
+				}
+
+				if (Object2.strength.x > Object1.strength.x)
+				{
+					Object1.x -= overlap;
+					Object1.velocity.x = obj1v - obj2v * Object1.bounce.x;
+					return true;
+				}
+
 				overlap *= 0.5;
 				Object1.x = Object1.x - overlap;
 				Object2.x += overlap;
@@ -225,18 +239,18 @@ class FlxObject extends FlxBasic
 				var average:Float = (obj1velocity + obj2velocity) * 0.5;
 				obj1velocity -= average;
 				obj2velocity -= average;
-				Object1.velocity.x = average + obj1velocity * Object1.elasticity;
-				Object2.velocity.x = average + obj2velocity * Object2.elasticity;
+				Object1.velocity.x = average + obj1velocity * Object1.bounce.x;
+				Object2.velocity.x = average + obj2velocity * Object2.bounce.x;
 			}
 			else if (!obj1immovable)
 			{
 				Object1.x = Object1.x - overlap;
-				Object1.velocity.x = obj2v - obj1v * Object1.elasticity;
+				Object1.velocity.x = obj2v - obj1v * Object1.bounce.x;
 			}
 			else if (!obj2immovable)
 			{
 				Object2.x += overlap;
-				Object2.velocity.x = obj1v - obj2v * Object2.elasticity;
+				Object2.velocity.x = obj1v - obj2v * Object2.bounce.x;
 			}
 			return true;
 		}
@@ -375,6 +389,28 @@ class FlxObject extends FlxBasic
 
 			if (!obj1immovable && !obj2immovable)
 			{
+				if (Object1.strength.y > Object2.strength.y)
+				{
+					Object2.y += overlap;
+					Object2.velocity.y = obj1v - obj2v * Object2.bounce.y;
+					if (Object2.collisonXDrag && Object1.active && Object1.moves && (obj1delta < obj2delta))
+					{
+						Object2.x += Object1.x - Object1.last.x;
+					}
+					return true;
+				}
+
+				if (Object2.strength.y > Object1.strength.y)
+				{
+					Object1.y -= overlap;
+					Object1.velocity.y = obj2v - obj1v * Object1.bounce.y;
+					if (Object1.collisonXDrag && Object2.active && Object2.moves && (obj1delta > obj2delta))
+					{
+						Object1.x += Object2.x - Object2.last.x;
+					}
+					return true;
+				}
+
 				overlap *= 0.5;
 				Object1.y = Object1.y - overlap;
 				Object2.y += overlap;
@@ -384,13 +420,13 @@ class FlxObject extends FlxBasic
 				var average:Float = (obj1velocity + obj2velocity) * 0.5;
 				obj1velocity -= average;
 				obj2velocity -= average;
-				Object1.velocity.y = average + obj1velocity * Object1.elasticity;
-				Object2.velocity.y = average + obj2velocity * Object2.elasticity;
+				Object1.velocity.y = average + obj1velocity * Object1.bounce.y;
+				Object2.velocity.y = average + obj2velocity * Object2.bounce.y;
 			}
 			else if (!obj1immovable)
 			{
 				Object1.y = Object1.y - overlap;
-				Object1.velocity.y = obj2v - obj1v * Object1.elasticity;
+				Object1.velocity.y = obj2v - obj1v * Object1.bounce.y;
 				// This is special case code that handles cases like horizontal moving platforms you can ride
 				if (Object1.collisonXDrag && Object2.active && Object2.moves && (obj1delta > obj2delta))
 				{
@@ -400,7 +436,7 @@ class FlxObject extends FlxBasic
 			else if (!obj2immovable)
 			{
 				Object2.y += overlap;
-				Object2.velocity.y = obj1v - obj2v * Object2.elasticity;
+				Object2.velocity.y = obj1v - obj2v * Object2.bounce.y;
 				// This is special case code that handles cases like horizontal moving platforms you can ride
 				if (Object2.collisonXDrag && Object1.active && Object1.moves && (obj1delta < obj2delta))
 				{
@@ -490,6 +526,11 @@ class FlxObject extends FlxBasic
 	public var immovable(default, set):Bool = false;
 
 	/**
+	 * An object can only push others objects who's strength is equal or lower than this object's strength.
+	 */
+	public var strength:FlxPoint;
+
+	/**
 	 * Whether the object collides or not. For more control over what directions the object will collide from,
 	 * use collision constants (like `LEFT`, `FLOOR`, etc) to set the value of `allowCollisions` directly.
 	 */
@@ -532,7 +573,7 @@ class FlxObject extends FlxBasic
 	public var last(default, null):FlxPoint;
 
 	/**
-	 * The virtual mass of the object. Default value is 1. Currently only used with elasticity
+	 * The virtual mass of the object. Default value is 1. Currently only used with bounce
 	 * during collision resolution. Change at your own risk; effects seem crazy unpredictable so far!
 	 */
 	public var mass:Float = 1;
@@ -540,7 +581,7 @@ class FlxObject extends FlxBasic
 	/**
 	 * The bounciness of this object. Only affects collisions. Default value is 0, or "not bouncy at all."
 	 */
-	public var elasticity:Float = 0;
+	public var bounce:FlxPoint;
 
 	/**
 	 * This is how fast you want this sprite to spin (in degrees per second).
@@ -664,6 +705,8 @@ class FlxObject extends FlxBasic
 	{
 		flixelType = OBJECT;
 		last = FlxPoint.get(x, y);
+		strength = FlxPoint.get(0, 0);
+		bounce = FlxPoint.get(0, 0);
 		scrollFactor = FlxPoint.get(1, 1);
 		pixelPerfectPosition = FlxObject.defaultPixelPerfectPosition;
 
