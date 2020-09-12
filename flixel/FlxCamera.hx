@@ -1327,12 +1327,15 @@ class FlxCamera extends FlxBasic
 		if (Style == null)
 			Style = LOCKON;
 
-		if (Lerp == null)
-			Lerp = 60 / FlxG.updateFramerate;
+		if (Lerp != null)
+			// ~ Voskip Change ~
+			// What: Don't set followLerp to 1 when it's null.
+			// Why: Because we don't want to pass the lerp every time we change the follow.
+			// If we want to change the lerp to something else we 
+			followLerp = Lerp;
 
 		style = Style;
 		target = Target;
-		followLerp = Lerp;
 		var helper:Float;
 		var w:Float = 0;
 		var h:Float = 0;
