@@ -1341,6 +1341,14 @@ class FlxCamera extends FlxBasic
 		var h:Float = 0;
 		_lastTargetPosition = null;
 
+		// ~ Voskip Change ~
+		// What: Don't set the deadzone when target is null.
+		// Why: Because we might want to remember the deadzone for when we start following something again.
+		if (target == null)
+		{
+			return;
+		}
+
 		switch (Style)
 		{
 			case LOCKON:
