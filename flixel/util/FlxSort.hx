@@ -18,6 +18,18 @@ class FlxSort
 		return byValues(Order, Obj1.y, Obj2.y);
 	}
 
+	// ~ Voskip Change ~
+	// What: Add a way to sort by the z-property.
+	// Why: This is a useful way to sort.
+	/**
+	 * You can use this function in FlxTypedGroup.sort() to sort FlxObjects by their y values.
+	 */
+	public static inline function byZ(Order:Int, Obj1:FlxObject, Obj2:FlxObject):Int
+	{
+		return byValues(Order, Obj1.z, Obj2.z);
+	}
+
+
 	/**
 	 * You can use this function as a backend to write a custom sorting function (see byY() for an example).
 	 */
