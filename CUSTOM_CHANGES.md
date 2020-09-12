@@ -8,6 +8,5 @@ Custom changes
 #### Bugfixes:
 
 #### Changes and improvements:
-- Added `anim` as alias for the `animation` property in `FlxSprite`
 - Made `FlxTween.add` a public method
 - Renamed `elasticity` to `bounce` and made it of the type `FlxPoint`
