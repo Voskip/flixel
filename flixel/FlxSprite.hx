@@ -382,6 +382,12 @@ class FlxSprite extends FlxObject
 	 * @param   Key        Set this parameter if you're loading `BitmapData`.
 	 * @return  This `FlxSprite` instance (nice for chaining stuff together, if you're into that).
 	 */
+	/**
+	 * ~ Voskip Change ~
+	 * What: Add `UseAsGrid` and `Margin` parameter.
+	 * Why: The `UseAsGrid` parameter allows for the `Width` and `Height` parameters to be interpreted as columns and rows.
+	 * The `Margin` parameter allows for having a margin in the spritesheet.
+	 */
 	public function loadGraphic(Graphic:FlxGraphicAsset, Animated:Bool = false, Width:Int = 0, Height:Int = 0, UseAsGrid:Bool = false, Margin:Int = 0,
 			Unique:Bool = false, ?Key:String):FlxSprite
 	{

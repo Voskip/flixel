@@ -1328,10 +1328,12 @@ class FlxCamera extends FlxBasic
 			Style = LOCKON;
 
 		if (Lerp != null)
-			// ~ Voskip Change ~
-			// What: Don't set followLerp to 1 when it's null.
-			// Why: Because we don't want to pass the lerp every time we change the follow.
-			// If we want to change the lerp to something else we 
+			/**
+			 * ~ Voskip Change ~
+			 * What: Don't set followLerp to 1 when it's null.
+			 * Why: Because we don't want to pass the lerp every time we change the follow.
+			 * If we want to change the lerp to something else we
+			 */
 			followLerp = Lerp;
 
 		style = Style;
@@ -1341,9 +1343,11 @@ class FlxCamera extends FlxBasic
 		var h:Float = 0;
 		_lastTargetPosition = null;
 
-		// ~ Voskip Change ~
-		// What: Don't set the deadzone when target is null.
-		// Why: Because we might want to remember the deadzone for when we start following something again.
+		/**
+		 * ~ Voskip Change ~
+		 * What: Don't set the `deadzone` when `target` is `null`.
+		 * Why: Because we might want to remember the `deadzone` for when we start following something again.
+		 */
 		if (target == null)
 		{
 			return;

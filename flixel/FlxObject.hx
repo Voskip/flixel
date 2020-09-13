@@ -483,11 +483,13 @@ class FlxObject extends FlxBasic
 	 */
 	public var y(default, set):Float = 0;
 
-	// ~ Voskip change ~
-	// What: Add a z-property.
-	// Why: Useful for sorting objects.
 	/**
 	 * The depth of the object in the world space. Objects with a higher value get placed on top of objects with a lower value.
+	 */
+	/**
+	 * ~ Voskip Change ~
+	 * What: Add the `z` property.
+	 * Why: Useful for sorting objects.
 	 */
 	public var z(default, set):Float = 0;
 
