@@ -70,6 +70,12 @@ class FlxBasic implements IFlxDestroyable
 	public function new() {}
 
 	/**
+	 * Use this to apply final changes to the object after it has been created and potentially added to a FlxState.
+	 * @param State The FlxState this object has been added to.
+	 */
+	public function finalize(?State:FlxState) {}
+
+	/**
 	 * **WARNING:** A destroyed `FlxBasic` can't be used anymore.
 	 * It may even cause crashes if it is still part of a group or state.
 	 * You may want to use `kill()` instead if you want to disable the object temporarily only and `revive()` it later.
