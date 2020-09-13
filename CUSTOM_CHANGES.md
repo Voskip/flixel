@@ -10,7 +10,6 @@ Custom changes
 #### Bugfixes:
 
 #### Changes and improvements:
-- Made `FlxTween.add()` a public method
 - Renamed `elasticity` to `bounce` and made it of the type `FlxPoint`
 - Changed in `FlxCamera` that not passing `Lerp` in `follow()` doesn't set it to `60 / FlxG.updateFramerate`
 - Changed in `FlxCamera` that when passing `null` as `Target` in `follow()` the `deadzone` is not set
