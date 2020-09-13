@@ -132,9 +132,9 @@ class FlxTypedEmitter<T:(FlxSprite, IFlxParticle) > extends FlxTypedGroup<T>
 	 */
 	public var acceleration(default, null):FlxPointRangeBounds = new FlxPointRangeBounds(0, 0);
 	/**
-	 * Sets the `elasticity`, or bounce, range of particles launched from this emitter.
+	 * Sets the `bounce` range of particles launched from this emitter.
 	 */
-	public var elasticity(default, null):FlxRangeBounds<Float> = new FlxRangeBounds<Float>(0);
+	public var bounce(default, null):FlxRangeBounds<Float> = new FlxRangeBounds<Float>(0);
 	/**
 	 * Sets the `immovable` flag for particles launched from this emitter.
 	 */
@@ -222,7 +222,7 @@ class FlxTypedEmitter<T:(FlxSprite, IFlxParticle) > extends FlxTypedGroup<T>
 		lifespan = null;
 		alpha = null;
 		color = null;
-		elasticity = null;
+		bounce = null;
 
 		super.destroy();
 	}
@@ -561,16 +561,16 @@ class FlxTypedEmitter<T:(FlxSprite, IFlxParticle) > extends FlxTypedGroup<T>
 		else
 			particle.accelerationRange.active = false;
 
-		// Particle elasticity settings
-		if (elasticity.active)
+		// Particle bounce settings
+		if (bounce.active)
 		{
-			particle.elasticityRange.start = FlxG.random.float(elasticity.start.min, elasticity.start.max);
-			particle.elasticityRange.end = FlxG.random.float(elasticity.end.min, elasticity.end.max);
-			particle.elasticityRange.active = particle.lifespan > 0 && particle.elasticityRange.start != particle.elasticityRange.end;
-			particle.elasticity = particle.elasticityRange.start;
+			particle.bounceRange.start = FlxG.random.float(bounce.start.min, bounce.start.max);
+			particle.bounceRange.end = FlxG.random.float(bounce.end.min, bounce.end.max);
+			particle.bounceRange.active = particle.lifespan > 0 && particle.bounceRange.start != particle.bounceRange.end;
+			particle.bounce.set(particle.bounceRange.start, particle.bounceRange.start);
 		}
 		else
-			particle.elasticityRange.active = false;
+			particle.bounceRange.active = false;
 
 		// Set position
 		particle.x = FlxG.random.float(x, x + width) - particle.width / 2;
