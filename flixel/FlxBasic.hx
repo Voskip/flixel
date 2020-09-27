@@ -59,6 +59,16 @@ class FlxBasic implements IFlxDestroyable
 	public var cameras(get, set):Array<FlxCamera>;
 
 	/**
+	 * The depth of the object in the world space. Objects with a higher value get placed on top of objects with a lower value.
+	 */
+	/**
+	 * ~ Voskip Change ~
+	 * What: Add the `z` property.
+	 * Why: Useful for sorting objects.
+	 */
+	public var z(default, set):Float = 0;
+
+	/**
 	 * Enum that informs the collision system which type of object this is (to avoid expensive type casting).
 	 */
 	@:noCompletion
@@ -143,6 +153,12 @@ class FlxBasic implements IFlxDestroyable
 			LabelValuePair.weak("alive", alive),
 			LabelValuePair.weak("exists", exists)
 		]);
+	}
+
+	@:noCompletion
+	function set_z(NewZ:Float):Float
+	{
+		return z = NewZ;
 	}
 
 	@:noCompletion
